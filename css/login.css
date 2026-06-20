@@ -1,0 +1,73 @@
+        .login_container {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            width: 320px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+        }
+        .login_container h1 {
+            margin: 0 0 16px;
+            font-size: 26px;
+            text-align: center;
+        }
+        .login_container p {
+            margin: 0 0 24px;
+            text-align: center;
+            color: #f2f2f2;
+        }
+        .form_group_login {
+            margin-bottom: 18px;
+            margin-right: 30px;
+        }
+        .form_group_login label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form_group_login input {
+            width: 100%;
+            padding: 12px 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .form_group_login input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+        }
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            margin-top: 8px;
+            background: #f2f2f2;
+            color: #013452;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-login:hover {
+            background: #f2f2f2;
+        }
+        .footer_text {
+            margin-top: 18px;
+            font-size: 13px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .cadastre-se-link {
+            margin-top: 12px;
+            text-align: center;
+        }
+        .cadastre-se-link a {
+            color: #f2f2f2;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .cadastre-se-link a:hover {
+            text-decoration: underline;
+        }

@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.*
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# MacOS metadata
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.temp
+
+# Misc
+*.swp
+*.swo
+*.bak
+*.orig
