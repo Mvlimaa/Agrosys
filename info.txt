@@ -1,0 +1,56 @@
+=============================================================================
+PROJETO: AVALIAÇÃO TÉCNICA AGROSYS - CRUD WEB
+DESENVOLVEDOR: Marcelo Vynicius de Lima Silva
+DATA: [22/06/26]
+=============================================================================
+
+1. SOBRE O PROJETO
+-----------------------------------------------------------------------------
+Este projeto é uma aplicação desenvolvida para o gerenciamento 
+de Clientes e Endereços, cumprindo todos os requisitos solicitados 
+no escopo do teste técnico. 
+
+A aplicação foi construída visando ser 100% responsiva (Mobile Friendly) 
+e roda puramente no lado do cliente (Client-side), utilizando LocalStorage 
+para a persistência de dados.
+
+2. TECNOLOGIAS UTILIZADAS
+-----------------------------------------------------------------------------
+- HTML5 & CSS3 (Design responsivo sem uso de frameworks externos como Bootstrap)
+- JavaScript Vanilla
+- jQuery v3.6.0 (Para manipulação de modais e DOM)
+- AlaSQL v4.3.0 (Para criação e manipulação do banco de dados SQL no navegador)
+
+3. INSTRUÇÕES DE EXECUÇÃO
+-----------------------------------------------------------------------------
+O projeto não possui dependências de backend (Node.js, PHP, etc.) e não requer 
+instalações ou bundlers. 
+
+Para rodar a aplicação:
+1. Extraia os arquivos do .zip em uma pasta local.
+2. Dê um duplo clique no arquivo "index.html" localizado na raiz do projeto.
+3. O arquivo será aberto no seu navegador padrão (Recomenda-se Google Chrome, 
+   Firefox ou Edge).
+
+4. PASSO A PASSO PARA TESTE 
+-----------------------------------------------------------------------------
+A. Primeiro Acesso (Banco Vazio):
+   - Na tela inicial, clique em "Cadastre-se" para criar um usuário de acesso.
+   - Faça o login com as credenciais recém-criadas.
+
+B. Importação de Dados Pré-populados (Opcional):
+   - Na tela inicial, clique no botão "Configuração".
+   - Faça o upload do arquivo "Exemplo.json" para 
+     carregar uma base de testes pronta.
+
+C. Testando as Regras de Negócio Implementadas:
+   - Tente cadastrar um cliente com um CPF já existente (o sistema deve bloquear).
+   - Tente cadastrar o primeiro endereço de um cliente sem marcar a opção "Tornar 
+     esse endereço principal" (o sistema deve bloquear e alertar sobre a 
+     obrigatoriedade da regra).
+   - Cadastre um segundo endereço marcando como "Principal" (o sistema 
+     automaticamente removerá a flag principal do endereço anterior).
+   - Utilize o botão "Extrair Dados" na tela de clientes para exportar todo o 
+     banco atual para um arquivo .json.
+
+=============================================================================

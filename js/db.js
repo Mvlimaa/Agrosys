@@ -22,11 +22,12 @@ alasql(`CREATE TABLE IF NOT EXISTS enderecos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cliente_id INT,
     cep STRING,
+    pais STRING,
     rua STRING,
     bairro STRING,
     cidade STRING,
     estado STRING,
-    complemento STRING,
     numero STRING,
+    complemento STRING,
     principal BOOLEAN
 )`);

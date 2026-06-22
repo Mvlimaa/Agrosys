@@ -10,7 +10,7 @@ function handleLogin(event) {
 
     if (usuarioLogado) {
         alert("Login bem-sucedido!");
-        window.location.href = "home.html";
+        window.location.href = "pages/home.html";
     } else {
         alert("Credenciais inválidas. Tente novamente.");
     }           
@@ -191,6 +191,8 @@ function salvarEndereco() {
     if (!clienteId) { alert('Cliente não selecionado para adicionar endereço.'); return; }
 
     var cep = document.getElementById('endereco_cep') ? document.getElementById('endereco_cep').value.trim() : '';
+    var pais = document.getElementById('endereco_pais') ? document.getElementById('endereco_pais').value.trim() : '';
+    var estado = document.getElementById('endereco_estado') ? document.getElementById('endereco_estado').value.trim() : '';
     var cidade = document.getElementById('endereco_cidade') ? document.getElementById('endereco_cidade').value.trim() : '';
     var bairro = document.getElementById('endereco_bairro') ? document.getElementById('endereco_bairro').value.trim() : '';
     var rua = document.getElementById('endereco_rua') ? document.getElementById('endereco_rua').value.trim() : '';
@@ -198,14 +200,29 @@ function salvarEndereco() {
     var complemento = document.getElementById('endereco_complemento') ? document.getElementById('endereco_complemento').value.trim() : '';
     var principal = document.getElementById('endereco_principal') ? document.getElementById('endereco_principal').checked : false;
 
-    if (!cep || !rua || !bairro || !cidade || !numero) {
+    if (!cep || !pais || !estado || !rua || !bairro || !cidade || !numero) {
         alert('Preencha todos os campos obrigatórios.');
         return;
     }
+    
+    let todosEnderecos = alasql('SELECT * FROM enderecos WHERE cliente_id = ?', [clienteId]);
+    let temPrincipal = false;
+    
+    for (let i = 0; i < todosEnderecos.length; i++) {
+        if (todosEnderecos[i].principal == 1 || todosEnderecos[i].principal === true) {
+            temPrincipal = true;
+        }
+    }
 
-    // chama a função do db.js para inserir o endereço
+    if (!principal && !temPrincipal) {
+        alert('Atenção: O sistema exige que o cliente tenha pelo menos um endereço principal. Por favor, marque a opção "Tornar esse endereço principal".');
+        return;
+    }
+
     try {
-        var sucesso = insertEndereco(clienteId, cep, rua, bairro, cidade, '', complemento, numero, principal);
+    
+        var sucesso = insertEndereco(clienteId, cep, pais, rua, bairro, cidade, estado, numero, complemento, principal);
+        
         if (sucesso) {
             alert('Endereço salvo com sucesso!');
             $('#modal_endereco').removeClass('show');
@@ -258,7 +275,7 @@ function salvarCliente() {
     
     if (sucesso) {
         alert("Cliente cadastrado com sucesso!");
-        $('#modal').removeClass('show');
+        $('#modal_cadastro').removeClass('show');
         document.getElementById("formCliente").reset(); 
         renderizarClientes(); 
     } else {
@@ -346,8 +363,8 @@ function insertCliente(nome, cpf, dataNascimento, telefone, celular) {
     return true;
 }
 
-//Insere endereço com todos os campos e define se é principal.
-function insertEndereco(cliente_id, cep, rua, bairro, cidade, estado, complemento, numero, principal) {
+//Cadastra o endereço com todos os campos e define se é principal.
+function insertEndereco(cliente_id, cep, pais, estado, rua, bairro, cidade, numero, complemento, principal) {
     //Garantir que a coluna 'numero' exista.
     try {
         alasql('ALTER TABLE enderecos ADD COLUMN numero STRING');
@@ -361,8 +378,8 @@ function insertEndereco(cliente_id, cep, rua, bairro, cidade, estado, complement
         alasql('UPDATE enderecos SET principal = 0 WHERE cliente_id = ?', [cliente_id]);
     }
 
-    alasql('INSERT INTO enderecos (cliente_id, cep, rua, bairro, cidade, estado, complemento, numero, principal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [cliente_id, cep, rua, bairro, cidade, estado, complemento, numero, principal ? 1 : 0]);
+    alasql('INSERT INTO enderecos (cliente_id, cep, rua, bairro, cidade, estado, pais, complemento, numero, principal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [cliente_id, cep, rua, bairro, cidade, estado, pais, complemento, numero, principal ? 1 : 0]);
 
     return true;
 }
@@ -418,16 +435,17 @@ function importDatabaseFromJson(jsonData) {
 
     enderecos.forEach(e => {
         try {
-            alasql('INSERT INTO enderecos (id, cliente_id, cep, rua, bairro, cidade, estado, complemento, numero, principal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            alasql('INSERT INTO enderecos (id, cliente_id, cep, pais, rua, bairro, cidade, estado, numero, complemento, principal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 e.id,
                 e.cliente_id,
                 e.cep || '',
+                e.pais || '',
                 e.rua || '',
                 e.bairro || '',
                 e.cidade || '',
                 e.estado || '',
-                e.complemento || '',
                 e.numero || '',
+                e.complemento || '',
                 e.principal ? 1 : 0
             ]);
         } catch (e) {
@@ -490,6 +508,12 @@ $(document).ready(function() {
     });
 
     //Fechar Modal de Cliente.
+    $('#btnFecharCliente').click(function(event) {
+        event.preventDefault();
+        document.getElementById('modal_cadastro').classList.remove('show');
+    });
+
+    //Fechar Modal de cadastro do Cliente.
     $('#btnFecharModalCliente').click(function(event) {
         event.preventDefault();
         document.getElementById('modal_cliente').classList.remove('show');
@@ -525,7 +549,7 @@ $(document).ready(function() {
         importarDadosJson(fileInput.files[0]);
     });
 
-    //Fecha o modal de endereços.
+    //Fecha o modal de endereços pelo X.
     $('#btnFecharEndereco').click(function(event) {
         event.preventDefault();
         $('#modal_endereco').removeClass('show');
